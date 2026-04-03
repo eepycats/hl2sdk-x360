@@ -68,14 +68,15 @@ public:
 
 	// If there is a +<varname> <value> on the command line, this returns the value.
 	// Otherwise, it returns NULL.
-	inline const char*		GetCommandLineValue( const char *pVariableName );
-	virtual bool			HasCommandLineValue( const char *pVariableName ) = 0;
+	virtual const char*		GetCommandLineValue( const char *pVariableName ) = 0;
 
 	// Try to find the cvar pointer by name
 	virtual ConCommandBase *FindCommandBase( const char *name ) = 0;
 	virtual const ConCommandBase *FindCommandBase( const char *name ) const = 0;
+
 	virtual ConVar			*FindVar ( const char *var_name ) = 0;
 	virtual const ConVar	*FindVar ( const char *var_name ) const = 0;
+
 	virtual ConCommand		*FindCommand( const char *name ) = 0;
 	virtual const ConCommand *FindCommand( const char *name ) const = 0;
 
@@ -101,9 +102,6 @@ public:
 	// well after ICVar, so we can't use the standard connect pattern
 	virtual void			InstallCVarQuery( ICvarQuery *pQuery ) = 0;
 
-#if defined( _X360 )
-	virtual void			PublishToVXConsole( ) = 0;
-#endif
 
 	virtual void			SetMaxSplitScreenSlots( int nSlots ) = 0;
 	virtual int				GetMaxSplitScreenSlots() const = 0;
@@ -122,9 +120,6 @@ public:
 	virtual bool			HasQueuedMaterialThreadConVarSets() const = 0;
 	virtual int				ProcessQueuedMaterialThreadConVarSets() = 0;
 
-	virtual void			QueueMaterialThreadSetConCommand( ConCommand *pConCommand ) = 0;
-	virtual bool			HasQueuedMaterialThreadConCommandSets() const = 0;
-	virtual int				ProcessQueuedMaterialThreadConCommandSets() = 0;
 
 protected:	class ICVarIteratorInternal;
 public:

@@ -26,7 +26,7 @@ public:
 
 	virtual void ConnectionStart(INetChannel *chan) = 0;	// called first time network channel is established
 	
-	virtual void ConnectionStop() = 0;
+	//virtual void ConnectionStop() = 0;
 
 	virtual void ConnectionClosing(const char *reason) = 0; // network channel is being closed by remote site
 
@@ -44,7 +44,7 @@ public:
 
 	virtual void FileSent(const char *fileName, unsigned int transferID, bool isReplayDemoFile) = 0;	// we sent a file
 	
-	virtual bool ChangeSplitscreenUser(int) = 0;
+	//virtual bool ChangeSplitscreenUser(int) = 0;
 };
 
 #define PROCESS_NET_MESSAGE( name )	\

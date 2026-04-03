@@ -220,15 +220,13 @@ public:
 	virtual DVDMode_t		GetDVDMode() { return m_pFileSystemPassThru->GetDVDMode(); }
 
 	virtual void EnableWhitelistFileTracking( bool bEnable, bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes )
-		{ m_pFileSystemPassThru->EnableWhitelistFileTracking( bEnable, bCacheAllVPKHashes, bRecalculateAndCheckHashes ); }
+		{ m_pFileSystemPassThru->EnableWhitelistFileTracking( bEnable ); }
 	virtual void RegisterFileWhitelist( IFileList *pForceMatchList, IFileList *pAllowFromDiskList, IFileList **pFilesToReload )
 		{ m_pFileSystemPassThru->RegisterFileWhitelist( pForceMatchList, pAllowFromDiskList, pFilesToReload ); }
 	virtual void MarkAllCRCsUnverified()
 		{ m_pFileSystemPassThru->MarkAllCRCsUnverified(); }
 	virtual void CacheFileCRCs( const char *pPathname, ECacheCRCType eType, IFileList *pFilter )
 		{ return m_pFileSystemPassThru->CacheFileCRCs( pPathname, eType, pFilter ); }
-	virtual EFileCRCStatus CheckCachedFileHash( const char *pPathID, const char *pRelativeFilename, int nFileFraction, FileHash_t *pFileHash )
-		{ return m_pFileSystemPassThru->CheckCachedFileHash( pPathID, pRelativeFilename, nFileFraction, pFileHash ); }
 	virtual int GetUnverifiedCRCFiles( CUnverifiedFileHash *pFiles, int nMaxFiles )
 		{ return m_pFileSystemPassThru->GetUnverifiedCRCFiles( pFiles, nMaxFiles ); }
 	virtual int GetWhitelistSpewFlags()
@@ -270,20 +268,8 @@ public:
 	
 	virtual IIoStats		*GetIoStats() { return m_pFileSystemPassThru->GetIoStats(); }
 	
-	virtual void			CacheAllVPKFileHashes( bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes )
-		{ m_pFileSystemPassThru->CacheAllVPKFileHashes( bCacheAllVPKHashes, bRecalculateAndCheckHashes ); }
-	virtual bool			CheckVPKFileHash( int PackFileID, int nPackFileNumber, int nFileFraction, MD5Value_t &md5Value )
-		{ return m_pFileSystemPassThru->CheckVPKFileHash( PackFileID, nPackFileNumber, nFileFraction, md5Value ); }
-	virtual void			GetVPKFileStatisticsKV( KeyValues *pKV )
-		{ m_pFileSystemPassThru->GetVPKFileStatisticsKV( pKV ); }
-	
-	virtual bool			IsFileInReadOnlySearchPath( const char *pFileName, const char *pPathID ) { return m_pFileSystemPassThru->IsFileInReadOnlySearchPath( pFileName, pPathID ); }
-
-	virtual EFileSystemPureState	GetPureState() { return m_pFileSystemPassThru->GetPureState(); }
-	virtual void					AllowLoadFromDisk( bool bAllowLoadFromDisk ) { return m_pFileSystemPassThru->AllowLoadFromDisk( bAllowLoadFromDisk ); }
-	virtual void					SetDisallowOutsideWrites( bool bDisallow ) { return m_pFileSystemPassThru->SetDisallowOutsideWrites( bDisallow ); }
-	virtual bool					GetDisallowOutsideWrites() { return m_pFileSystemPassThru->GetDisallowOutsideWrites(); }
-
+	virtual void			EnableWhitelistFileTracking( bool bEnable ) { return m_pFileSystemPassThru->EnableWhitelistFileTracking(bEnable);};
+	virtual EFileCRCStatus	CheckCachedFileCRC( const char *pPathID, const char *pRelativeFilename, CRC32_t *pCRC ) { return m_pFileSystemPassThru->CheckCachedFileCRC(pPathID,pRelativeFilename,pCRC);};
 protected:
 	IFileSystem *m_pFileSystemPassThru;
 };

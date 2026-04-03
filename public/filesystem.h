@@ -520,8 +520,6 @@ public:
 	// If there are currently no search paths with the specified path ID, then it will still
 	// remember it in case you add search paths with this path ID.
 	virtual void			MarkPathIDByRequestOnly( const char *pPathID, bool bRequestOnly ) = 0;
-	
-	virtual bool			IsFileInReadOnlySearchPath( const char *pFileName, const char *pPathID ) = 0;
 
 	// converts a partial path into a full path
 	virtual const char		*RelativePathToFullPath( const char *pFileName, const char *pPathID, char *pLocalPath, int localPathBufferSize, PathTypeFilter_t pathFilter = FILTER_NONE, PathTypeQuery_t *pPathType = NULL ) = 0;
@@ -589,7 +587,7 @@ public:
 		) = 0;
 
 	virtual void			FindFileAbsoluteList(
-		CUtlVector<CUtlString> &output,
+		CUtlVector<CUtlString, CUtlMemory<CUtlString, int>> &output,
 		const char *pWildCard,
 		const char *pPathID
 		) = 0;
@@ -770,7 +768,7 @@ public:
 
 	// This should be called ONCE at startup. Multiplayer games (gameinfo.txt does not contain singleplayer_only)
 	// want to enable this so sv_pure works.
-	virtual void			EnableWhitelistFileTracking( bool bEnable, bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes ) = 0;
+	virtual void			EnableWhitelistFileTracking( bool bEnable ) = 0;
 
 	// This is called when the client connects to a server using a pure_server_whitelist.txt file.
 	//
@@ -801,7 +799,7 @@ public:
 	// As the server loads whitelists when it transitions maps, it calls this to calculate CRCs for any files marked
 	// with check_crc.   Then it calls CheckCachedFileCRC later when it gets client requests to verify CRCs.
 	virtual void			CacheFileCRCs( const char *pPathname, ECacheCRCType eType, IFileList *pFilter ) = 0;
-	virtual EFileCRCStatus	CheckCachedFileHash( const char *pPathID, const char *pRelativeFilename, int nFileFraction, FileHash_t *pFileHash ) = 0;
+	virtual EFileCRCStatus	CheckCachedFileCRC( const char *pPathID, const char *pRelativeFilename, CRC32_t *pCRC ) = 0;
 
 	// Fills in the list of files that have been loaded off disk and have not been verified.
 	// Returns the number of files filled in (between 0 and nMaxFiles).
@@ -849,20 +847,9 @@ public:
 	// will be issued whenever the indicated # of seconds go by without an i/o request.  Passing
 	// 0.0 will turn off the functionality.
 	virtual void            SetIODelayAlarm( float flThreshhold ) = 0;
-	
 	virtual bool			AddXLSPUpdateSearchPath( const void *pData, int nSize ) = 0;
 	
 	virtual IIoStats		*GetIoStats() = 0;
-	
-	virtual EFileSystemPureState	GetPureState() = 0;
-	virtual void					AllowLoadFromDisk( bool bAllowLoadFromDisk ) = 0;
-	
-	virtual void			CacheAllVPKFileHashes( bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes ) = 0;
-	virtual bool			CheckVPKFileHash( int PackFileID, int nPackFileNumber, int nFileFraction, MD5Value_t &md5Value ) = 0;
-	virtual void			GetVPKFileStatisticsKV( KeyValues *pKV ) = 0;
-	
-	virtual void			SetDisallowOutsideWrites( bool bDisallow ) = 0;
-	virtual bool			GetDisallowOutsideWrites() = 0;
 };
 
 //-----------------------------------------------------------------------------

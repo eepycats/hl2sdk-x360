@@ -46,24 +46,22 @@ public:
 	CGlobalVars( bool bIsClient );
 
 public:
-	
-	// Current map
-	string_t		mapname;
-	string_t		mapGroupName;
-	int				mapversion;
-	string_t		startspot;
-	MapLoadType_t	eLoadType;		// How the current map was loaded
-	bool			bMapLoadFailed;	// Map has failed to load, we need to kick back to the main menu
+	string_t mapname;                   // XREF: CGameServer::SpawnServer(char *,char *,char *)+7FD/w
+	string_t mapGroupName;              // XREF: CGameServer::SetMapGroupName(char const*):loc_1E6629/w
+	                                    // CGameServer::SpawnServer(char *,char *,char *)+823/w
+	int mapversion;                     // XREF: CGameServer::SpawnServer(char *,char *,char *)+1C2/w
+	string_t startspot;                 // XREF: CGameServer::SpawnServer(char *,char *,char *)+813/w
+	MapLoadType_t eLoadType;
+	bool bMapLoadFailed;
+	bool deathmatch;                    // XREF: CGameServer::SpawnServer(char *,char *,char *):loc_1EAFD4/w
+	bool coop;                          // XREF: CGameServer::SpawnServer(char *,char *,char *)+7D8/w
+	bool teamplay;
+	int maxEntities;                    // XREF: CGameServer::SpawnServer(char *,char *,char *)+2B5/w
+	                                    // CGameServer::Clear(void)+A4/w
+	int serverCount;                    // XREF: `global constructor keyed to'sv_main.cpp+2E9/w
+	edict_t *pEdicts;                   // XREF: CGameServer::SpawnServer(char *,char *,char *)+34A/w
+	                                    // CGameServer::Clear(void)+AE/w	
 
-	// game specific flags
-	bool			deathmatch;
-	bool			coop;
-	bool			teamplay;
-	// current maxentities
-	int				maxEntities;
-
-	int				serverCount;
-	edict_t			*pEdicts;
 };
 
 inline CGlobalVars::CGlobalVars( bool bIsClient ) : 

@@ -23,7 +23,7 @@ typedef int HKeySymbol;
 class IKeyValuesSystem
 {
 public:
-	virtual ~IKeyValuesSystem() = 0;
+	//virtual ~IKeyValuesSystem() = 0;
 
 	// registers the size of the KeyValues in the specified instance
 	// so it can build a properly sized memory pool for the KeyValues objects

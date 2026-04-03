@@ -23,7 +23,7 @@ typedef struct player_info_s player_info_t;
 abstract_class IServer : public IConnectionlessPacketHandler
 {
 public:
-	virtual	~IServer() {}
+	//virtual	~IServer() {}
 
 	virtual int		GetNumClients( void ) const = 0; // returns current number of clients
 	virtual int		GetNumProxies( void ) const = 0; // returns number of attached HLTV proxies

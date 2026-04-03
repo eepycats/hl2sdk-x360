@@ -144,7 +144,7 @@ public:
 	// Check whether the specified worldspace bounding box is inside the specified PVS
 	virtual bool		CheckBoxInPVS( const Vector &mins, const Vector &maxs, const unsigned char *checkpvs, int checkpvssize ) = 0;
 	// Check whether the specified worldspace bounding box is partially inside the specified PVS
-	virtual bool		CheckBoxPartiallyInPVS( const Vector &mins, const Vector &maxs, const unsigned char *checkpvs, int checkpvssize ) = 0;
+	//virtual bool		CheckBoxPartiallyInPVS( const Vector &mins, const Vector &maxs, const unsigned char *checkpvs, int checkpvssize ) = 0;
 
 	// Returns the server assigned userid for this player.  Useful for logging frags, etc.  
 	//  returns -1 if the edict couldn't be found in the list of players.
@@ -208,12 +208,11 @@ public:
 
 	// Begin a message from a server side entity to its client side counterpart (func_breakable glass, e.g.)
 	virtual bf_write	*EntityMessageBegin( int ent_index, ServerClass * ent_class, bool reliable ) = 0;
-	
+	virtual bf_write	*UserMessageBegin(IRecipientFilter *,int,char const*);
+
 	// Finish the EntityMessage and dispatch to network layer
 	virtual void		MessageEnd( void ) = 0;
 	
-	virtual void		SendUserMessage( IRecipientFilter &filter, int message, const google::protobuf::Message &msg ) = 0;
-
 	// Print szMsg to the client console.
 	virtual void		ClientPrintf( edict_t *pEdict, const char *szMsg ) = 0;
 
@@ -576,7 +575,7 @@ public:
 	virtual int				CreateEntityTransitionList( CSaveRestoreData *, int ) = 0;
 	// Build the list of maps adjacent to the current map
 	virtual void			BuildAdjacentMapList( void ) = 0;
-
+	virtual bool GetUserMessageInfo(int,char *,int,int &);
 	// Hand over the StandardSendProxies in the game DLL's module.
 	virtual CStandardSendProxies*	GetStandardSendProxies() = 0;
 
@@ -732,7 +731,7 @@ public:
 	// Get the ear position for a specified client
 	virtual void			ClientEarPosition( edict_t *pEntity, Vector *pEarOrigin ) = 0;
 
-	virtual bool			ClientReplayEvent( edict_t *player, void *event /* ClientReplayEventParams_t const& */ ) = 0;
+	//virtual bool			ClientReplayEvent( edict_t *player, void *event /* ClientReplayEventParams_t const& */ ) = 0;
 
 	// returns number of delay ticks if player is in Replay mode (0 = no delay)
 	virtual int				GetReplayDelay( edict_t *player, int& entity ) = 0;

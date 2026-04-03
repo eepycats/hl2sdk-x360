@@ -33,7 +33,7 @@ enum CrossPlayPlatform_t
 abstract_class IClient : public INetChannelHandler
 {
 public:
-	virtual	~IClient() {}
+	//virtual	~IClient() {}
 
 	// connect client
 	virtual void	Connect( const char * szName, int nUserID, INetChannel *pNetChannel, bool bFakePlayer, CrossPlayPlatform_t platform, const CMsg_CVars *pCvars = NULL ) = 0;
@@ -45,7 +45,7 @@ public:
 	virtual	void	Reconnect( void ) = 0;				// froce reconnect
 
 	// disconnects a client with a given reason
-	virtual void	Disconnect( const char *reason ) = 0;
+	virtual void	Disconnect( const char *reason,... ) = 0;
 
 	virtual int				GetPlayerSlot() const = 0; // returns client slot (usually entity number-1)
 	virtual int				GetUserID() const = 0; // unique ID on this server 

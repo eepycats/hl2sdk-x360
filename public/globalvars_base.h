@@ -32,66 +32,27 @@ public:
 
 public:
 	
-	// Absolute time (per frame still - Use Plat_FloatTime() for a high precision real time 
-	//  perf clock, but not that it doesn't obey host_timescale/host_framerate)
-	float			realtime;
-	// Absolute frame counter - continues to increase even if game is paused
-	int				framecount;
-	// Non-paused frametime
-	float			absoluteframetime;
-	
-	float			absoluteframestarttimestddev;
-
-	// Current time 
-	//
-	// On the client, this (along with tickcount) takes a different meaning based on what
-	// piece of code you're in:
-	// 
-	//   - While receiving network packets (like in PreDataUpdate/PostDataUpdate and proxies),
-	//     this is set to the SERVER TICKCOUNT for that packet. There is no interval between
-	//     the server ticks.
-	//     [server_current_Tick * tick_interval]
-	//
-	//   - While rendering, this is the exact client clock 
-	//     [client_current_tick * tick_interval + interpolation_amount]
-	//
-	//   - During prediction, this is based on the client's current tick:
-	//     [client_current_tick * tick_interval]
-	float			curtime;
-	
-	// Time spent on last server or client frame (has nothing to do with think intervals)
-	float			frametime;
-	// current maxplayers setting
-	int				maxClients;
-
-	// Simulation ticks - does not increase when game is paused
-	int				tickcount;
-
-	// Simulation tick interval
-	float			interval_per_tick;
-
-	// interpolation amount ( client-only ) based on fraction of next tick which has elapsed
-	float			interpolation_amount;
-	int				simTicksThisFrame;
-
-	int				network_protocol;
-
-	// current saverestore data
-	CSaveRestoreData *pSaveData;
-
-private:
-	// Set to true in client code.
-	bool			m_bClient;
-
-public:
-	bool			m_bRemoteClient;
-	
-private:
-	// 100 (i.e., tickcount is rounded down to this base and then the "delta" from this base is networked
-	int				nTimestampNetworkingBase;   
-	// 32 (entindex() % nTimestampRandomizeWindow ) is subtracted from gpGlobals->tickcount to set the networking basis, prevents
-	//  all of the entities from forcing a new PackedEntity on the same tick (i.e., prevents them from getting lockstepped on this)
-	int				nTimestampRandomizeWindow;  
+	 float realtime;
+	 int framecount;
+	 float absoluteframetime;
+	 float curtime;                      // XREF: CGameServer::SpawnServer(char *,char *,char *)+48C/w
+	                                     // SV_Think(bool)+7E/w
+	 float frametime;                    // XREF: SV_Think(bool)+93/w
+	                                     // SV_Think(bool):loc_1EBF40/w ...
+	 int maxClients;                     // XREF: CGameServer::SpawnServer(char *,char *,char *)+2C7/w
+	 int tickcount;                      // XREF: CGameServer::SpawnServer(char *,char *,char *):loc_1EAC64/w
+	                                     // CGameServer::SpawnServer(char *,char *,char *)+492/r ...
+	 float interval_per_tick;
+	 float interpolation_amount;
+	 int simTicksThisFrame;
+	 int network_protocol;
+	 CSaveRestoreData *pSaveData;
+	 bool m_bClient;                     // XREF: `global constructor keyed to'sv_main.cpp+2CE/w
+	 bool m_bRemoteClient;
+	 // padding byte
+	 // padding byte
+	 int nTimestampNetworkingBase;       // XREF: `global constructor keyed to'sv_main.cpp+2D5/w
+	 int nTimestampRandomizeWindow;      // XREF: `global constructor keyed to'sv_main.cpp+2DF/w
 	
 };
 
